@@ -1,15 +1,18 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const knex = require("../database");
+const knex = require('../database');
+const {
+  getAllFromTable,
+  addToTable,
+  getById,
+  updateById,
+  deleteById
+} = require('./controller');
 
-router.get("/", async (request, response) => {
-  try {
-    // knex syntax for selecting things. Look up the documentation for knex for further info
-    const titles = await knex("meals").select("title");
-    response.json(titles);
-  } catch (error) {
-    throw error;
-  }
-});
+router.get('/', (req, res) => getAllFromTable(req, res, 'meal'));
+router.post('/', (req, res) => addToTable(req, res, 'meal'));
+router.get('/:id', (req, res) => getById(req, res, 'meal'));
+router.put('/:id', (req, res) => updateById(req, res, 'meal'));
+router.delete('/:id', async (req, res) => deleteById(req, res, 'meal'));
 
 module.exports = router;
