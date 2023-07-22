@@ -5,7 +5,7 @@ const {
   getById,
   updateById,
   deleteById
-} = require('./controller');
+} = require('./controller.js');
 const router = express.Router();
 
 router.get('/', (req, res) => getAllFromTable(req, res, 'review'));

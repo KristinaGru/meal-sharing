@@ -110,8 +110,63 @@ const getMealByQuery = async (req, res) => {
     if (Object.keys(queries).length === 0) {
       getAllFromTable(req, res, 'meal');
     } else {
-      // Build dynamic querie with all possible parameters
-      const meals = knex('meal')
+      // Helper functions
+
+      function filterByPrice(builder) {
+        if (queries.maxPrice > 0) {
+          builder.where('price', '<=', queries.maxPrice);
+        }
+      }
+
+      function filterByTitle(builder) {
+        if (typeof queries.title === 'string') {
+          builder.where('title', 'like', `%${queries.title}%`);
+        }
+      }
+
+      function filterByDates(builder) {
+        if (
+          !isNaN(Date.parse(queries['dateAfter'])) &&
+          queries['dateAfter'].length > 7
+        ) {
+          builder.where('when', '>=', queries['dateAfter']);
+        }
+        if (
+          !isNaN(Date.parse(queries['dateBefore'])) &&
+          queries['dateBefore'].length > 7
+        ) {
+          builder.where('when', '<=', queries['dateBefore']);
+        }
+      }
+
+      function sortByKey(builder) {
+        const sortKeys = ['when', 'max_reservations', 'price'];
+        if ('sortKey' in queries && sortKeys.includes(queries['sortKey'])) {
+          const sortKey = queries['sortKey'];
+          const sortDir = req.query['sortDir'] === 'desc' ? 'desc' : 'asc';
+          builder.orderBy(sortKey, sortDir);
+        }
+      }
+
+      function filterByAvailability(builder) {
+        if (queries['availableReservations'].toLowerCase() === 'true') {
+          builder
+            .having('available_reservations', '>', 0)
+            .orHavingNull('available_reservations');
+        } else if (queries['availableReservations'].toLowerCase() === 'false') {
+          builder.having('available_reservations', '<=', 0);
+        }
+      }
+
+      function limit() {
+        return 'limit' in queries && queries['limit'] > 0
+          ? queries['limit']
+          : Number.MAX_SAFE_INTEGER;
+      }
+
+      // Main query
+
+      const baseQuery = knex('meal')
         .select(
           'meal.*',
           knex.raw(
@@ -119,51 +174,16 @@ const getMealByQuery = async (req, res) => {
           )
         )
         .leftJoin('reservation', 'meal.id', '=', 'reservation.meal_id')
-        .where((builder) => {
-          if (queries['maxPrice'] > 0) {
-            builder.where('price', '<=', queries['maxPrice']);
-          }
-          if (typeof queries['title'] === 'string') {
-            builder.where('title', 'like', `%${queries['title']}%`);
-          }
-          if (
-            !isNaN(Date.parse(queries['dateAfter'])) &&
-            queries['dateAfter'].length > 7
-          ) {
-            builder.where('when', '>=', queries['dateAfter']);
-          }
-          if (
-            !isNaN(Date.parse(queries['dateBefore'])) &&
-            queries['dateBefore'].length > 7
-          ) {
-            builder.where('when', '<=', queries['dateBefore']);
-          }
-        })
-        .groupBy('meal.id')
-        .modify((builder) => {
-          const sortKeys = ['when', 'max_reservations', 'price'];
-          if ('sortKey' in queries && sortKeys.includes(queries['sortKey'])) {
-            const sortKey = queries['sortKey'];
-            const sortDir = req.query['sortDir'] === 'desc' ? 'desc' : 'asc';
-            builder.orderBy(sortKey, sortDir);
-          }
-        })
-        .modify((builder) => {
-          if (queries['availableReservations'].toLowerCase() === 'true') {
-            builder
-              .having('available_reservations', '>', 0)
-              .orHavingNull('available_reservations');
-          } else if (
-            queries['availableReservations'].toLowerCase() === 'false'
-          ) {
-            builder.having('available_reservations', '<=', 0);
-          }
-        })
-        .modify((builder) => {
-          if (queries['limit'] > 0) {
-            builder.limit(queries['limit']);
-          }
-        });
+        .groupBy('meal.id');
+
+      const meals = baseQuery
+        .modify(filterByPrice)
+        .modify(filterByTitle)
+        .modify(filterByDates)
+        .modify(sortByKey)
+        .modify(filterByAvailability)
+        .limit(limit());
+
       res.status(200).json(await meals);
     }
   } catch (e) {

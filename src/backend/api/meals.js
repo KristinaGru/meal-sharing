@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const knex = require('../database');
 const {
   addToTable,
   getById,
@@ -8,7 +7,7 @@ const {
   deleteById,
   getMealByQuery,
   getMealReview
-} = require('./controller');
+} = require('./controller.js');
 
 router.get('/', (req, res) => getMealByQuery(req, res));
 router.post('/', (req, res) => addToTable(req, res, 'meal'));
