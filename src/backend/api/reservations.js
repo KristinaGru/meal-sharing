@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const knex = require('../database');
 const {
   getAllFromTable,
   addToTable,
   getById,
   updateById,
   deleteById
-} = require('./controller');
+} = require('./controller.js');
 
 router.get('/', (req, res) => getAllFromTable(req, res, 'reservation'));
 router.post('/', (req, res) => addToTable(req, res, 'reservation'));
