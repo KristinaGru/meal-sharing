@@ -1,18 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const knex = require('../database');
 const {
-  getAllFromTable,
   addToTable,
   getById,
   updateById,
-  deleteById
-} = require('./controller');
+  deleteById,
+  getMealByQuery,
+  getMealReview
+} = require('./controller.js');
 
-router.get('/', (req, res) => getAllFromTable(req, res, 'meal'));
+router.get('/', (req, res) => getMealByQuery(req, res));
 router.post('/', (req, res) => addToTable(req, res, 'meal'));
 router.get('/:id', (req, res) => getById(req, res, 'meal'));
 router.put('/:id', (req, res) => updateById(req, res, 'meal'));
-router.delete('/:id', async (req, res) => deleteById(req, res, 'meal'));
+router.delete('/:id', (req, res) => deleteById(req, res, 'meal'));
+router.get('/:meal_id/reviews', (req, res) => getMealReview(req, res));
 
 module.exports = router;
