@@ -41,7 +41,8 @@ ul {
 }
 
 li,
-.meal-img {
+.meal-img,
+.meal-page-img {
   overflow: hidden;
   display: flex;
 }
@@ -59,6 +60,13 @@ li,
 
 .meal-img {
   height: 7rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.meal-page-img {
+  max-width: 30rem;
+  max-height: 15rem;
   justify-content: center;
   align-items: center;
 }
@@ -87,6 +95,14 @@ button {
   font-size: 17px;
 }
 
+p {
+  margin: 0.5rem 0;
+}
+
+.svg-inline--fa {
+  width: 1.5rem;
+}
+
 @media screen and (max-width: 1400px) {
   #root {
     padding-left: 10%;
@@ -94,10 +110,10 @@ button {
   }
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 500px) {
   #root {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 5%;
+    padding-right: 5%;
   }
 
   ul {
