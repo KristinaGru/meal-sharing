@@ -10,6 +10,7 @@ import {
   faMoneyBillWave,
   faPeopleGroup
 } from '@fortawesome/free-solid-svg-icons';
+import ReservationForm from './ReservationForm';
 
 const MealPage = ({ meals }) => {
   const { id } = useParams();
@@ -17,7 +18,6 @@ const MealPage = ({ meals }) => {
   let date;
   if (meal) {
     date = meal.when.split('T');
-    console.log(date);
   }
 
   return !meal ? (
@@ -56,6 +56,7 @@ const MealPage = ({ meals }) => {
           {meal.price}DKK
         </p>
       </div>
+      <ReservationForm id={id} />
     </div>
   );
 };
