@@ -22,8 +22,13 @@ body {
   align-items: center;
 }
 
+.logo {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
 .header > * {
-  padding: 2rem 1rem;
+  padding: 2rem 0;
 }
 
 .link:hover {
@@ -38,6 +43,10 @@ ul {
   gap: 2rem;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+
+.meal-page {
+  padding-bottom: 2rem;
 }
 
 li,
@@ -55,7 +64,7 @@ li,
 }
 
 .meal:hover {
-  background-color: #ebb32f33;
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .meal-img {
@@ -95,13 +104,14 @@ button {
   font-size: 17px;
 }
 
-.meal-page {
+.row-wrap {
   display: flex;
   justify-content: space-between;
   gap: 2rem;
+  margin-bottom: 4rem;
 }
 
-form {
+.reservation {
   padding: 2rem;
   border: 1px solid gray;
   border-radius: 5px;
@@ -139,7 +149,7 @@ p {
     justify-content: center;
   }
 
-  .meal-page {
+  .row-wrap {
     flex-direction: column;
   }
 }

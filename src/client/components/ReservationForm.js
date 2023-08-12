@@ -17,14 +17,12 @@ const ReservationForm = ({ id }) => {
         ? setAvailableReservations(meal.max_reservations)
         : setAvailableReservations(meal.available_reservations)
       : setAvailableReservations(0);
-    console.log(meal);
   };
 
   useEffect(() => {
     getAvailableReservations().catch(console.error);
   }, []);
 
-  console.log(availableReservations);
   const [data, setData] = useState({
     number_of_guests: '',
     meal_id: id,
@@ -35,13 +33,11 @@ const ReservationForm = ({ id }) => {
 
   const updateData = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
-    console.log(data);
   };
 
   const submit = (e) => {
     e.preventDefault();
     try {
-      const guests = data.number_of_guests;
       setAvailableReservations(availableReservations - data.number_of_guests);
       axios.post('http://localhost:5000/api/reservations', data);
       alert('successful reservation');
@@ -51,7 +47,7 @@ const ReservationForm = ({ id }) => {
   };
 
   return (
-    <form onSubmit={(e) => submit(e)}>
+    <form className="reservation" onSubmit={(e) => submit(e)}>
       <h2>Make a reservation</h2>
       {availableReservations > 0 ? (
         <>
@@ -99,7 +95,10 @@ const ReservationForm = ({ id }) => {
             InputProps={{ inputProps: { min: 1, max: availableReservations } }}
             required
           />
-          <Button type="submit" variant="outlined" sx={{ marginTop: '0.5rem' }}>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ marginTop: '0.5rem' }}>
             Book
           </Button>
         </>
