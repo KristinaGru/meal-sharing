@@ -7,10 +7,10 @@ const ReservationForm = ({ id }) => {
   const [availableReservations, setAvailableReservations] = useState(0);
 
   const getAvailableReservations = async () => {
-    const res = await fetch(
+    const res = await axios.get(
       'http://localhost:5000/api/meals?availableReservations=true'
     );
-    const meals = await res.json();
+    const meals = res.data;
     const meal = meals.find((meal) => meal.id === +id);
     meal
       ? meal.available_reservations === null

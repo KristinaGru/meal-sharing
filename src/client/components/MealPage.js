@@ -16,10 +16,6 @@ import AddReview from './AddReview';
 const MealPage = ({ meals }) => {
   const { id } = useParams();
   const meal = meals.find((meal) => meal.id === +id);
-  let date;
-  if (meal) {
-    date = meal.when.split('T');
-  }
 
   return !meal ? (
     <p>...loading</p>

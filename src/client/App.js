@@ -4,23 +4,24 @@ import MealsList from './components/MealsList';
 import Header from './components/Header';
 import { useState, useEffect } from 'react';
 import MealPage from './components/MealPage';
+import MainPage from './components/MainPage';
+import axios from 'axios';
 
 function App() {
   const [meals, setMeals] = useState([]);
   useEffect(() => {
-    async function fetchMeals() {
-      const res = await fetch('http://localhost:3000/api/meals');
-      const meals = await res.json();
-      setMeals(meals);
+    async function getMeals() {
+      const meals = await axios.get('http://localhost:3000/api/meals');
+      setMeals(meals.data);
     }
-    fetchMeals().catch(console.error);
+    getMeals().catch(console.error);
   }, []);
 
   return (
     <Router>
       <Header />
       <Route exact path="/">
-        <p>test</p>
+        <MainPage meals={meals.slice(0, 5)} />
       </Route>
       <Route exact path="/meals">
         <MealsList meals={meals} />

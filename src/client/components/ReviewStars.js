@@ -3,17 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
 import { faStarHalfStroke } from '@fortawesome/free-regular-svg-icons';
+import axios from 'axios';
 
 const ReviewStars = ({ meal }) => {
   const [stars, setStars] = useState(0);
   const [reviewAmount, setReviewAmount] = useState(0);
 
   useEffect(() => {
-    async function fetchStars(mealId) {
-      const res = await fetch(
+    async function getStars(mealId) {
+      const res = await axios.get(
         `http://localhost:3000/api/meals/${mealId}/reviews`
       );
-      const reviews = await res.json();
+      const reviews = res.data;
 
       if (reviews.length > 0) {
         setReviewAmount(reviews.length);
@@ -25,7 +26,7 @@ const ReviewStars = ({ meal }) => {
         setStars(+averageStars.toFixed(1));
       }
     }
-    fetchStars(meal.id).catch(console.error);
+    getStars(meal.id).catch(console.error);
   }, []);
 
   function getSolidStars() {
