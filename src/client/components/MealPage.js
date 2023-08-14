@@ -12,6 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import ReservationForm from './ReservationForm';
 import AddReview from './AddReview';
+import Reviews from './Reviews';
 
 const MealPage = ({ meals }) => {
   const { id } = useParams();
@@ -59,7 +60,7 @@ const MealPage = ({ meals }) => {
         </div>
         <ReservationForm id={id} />
       </div>
-      <AddReview id={id} />
+      <Reviews id={id} />
     </div>
   );
 };
