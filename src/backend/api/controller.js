@@ -93,6 +93,7 @@ const getMealByQuery = async (req, res) => {
   try {
     const queries = {};
     const parameters = [
+      'minPrice',
       'maxPrice',
       'availableReservations',
       'title',
@@ -115,6 +116,9 @@ const getMealByQuery = async (req, res) => {
       function filterByPrice(builder) {
         if (queries.maxPrice > 0) {
           builder.where('price', '<=', queries.maxPrice);
+        }
+        if (queries.minPrice > 0) {
+          builder.where('price', '>=', queries.minPrice);
         }
       }
 
@@ -149,12 +153,10 @@ const getMealByQuery = async (req, res) => {
       }
 
       function filterByAvailability(builder) {
-        if (queries['availableReservations'].toLowerCase() === 'true') {
+        if (queries['availableReservations'] === 'true') {
           builder
             .having('available_reservations', '>', 0)
             .orHavingNull('available_reservations');
-        } else if (queries['availableReservations'].toLowerCase() === 'false') {
-          builder.having('available_reservations', '<=', 0);
         }
       }
 

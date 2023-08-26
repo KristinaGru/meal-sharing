@@ -13,13 +13,14 @@ import {
 import ReservationForm from './ReservationForm';
 import AddReview from './AddReview';
 import Reviews from './Reviews';
+import { CircularProgress } from '@mui/material';
 
 const MealPage = ({ meals }) => {
   const { id } = useParams();
   const meal = meals.find((meal) => meal.id === +id);
 
   return !meal ? (
-    <p>...loading</p>
+    <CircularProgress color="inherit" />
   ) : (
     <div className="meal-page">
       <div className="row-wrap">

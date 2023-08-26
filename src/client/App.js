@@ -6,14 +6,15 @@ import { useState, useEffect } from 'react';
 import MealPage from './components/MealPage';
 import MainPage from './components/MainPage';
 import axios from 'axios';
+import HostPage from './components/HostPage';
 
 function App() {
   const [meals, setMeals] = useState([]);
   useEffect(() => {
-    async function getMeals() {
+    const getMeals = async () => {
       const meals = await axios.get('http://localhost:3000/api/meals');
       setMeals(meals.data);
-    }
+    };
     getMeals().catch(console.error);
   }, []);
 
@@ -24,10 +25,13 @@ function App() {
         <MainPage meals={meals.slice(0, 5)} />
       </Route>
       <Route exact path="/meals">
-        <MealsList meals={meals} />
+        <MealsList />
       </Route>
       <Route exact path="/meals/:id">
         <MealPage meals={meals} />
+      </Route>
+      <Route exact path="/host">
+        <HostPage />
       </Route>
     </Router>
   );

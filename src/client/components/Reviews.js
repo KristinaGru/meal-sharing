@@ -15,13 +15,12 @@ const Reviews = ({ id }) => {
     getReviews().catch(console.error);
   }, []);
 
-  console.log(reviews);
   return (
     <>
       <AddReview id={id} />
       <ul className="reviews">
         {reviews.map((review) => (
-          <Review review={review} />
+          <Review review={review} key={review.id} />
         ))}
       </ul>
     </>
