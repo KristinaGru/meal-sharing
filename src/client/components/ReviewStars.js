@@ -12,7 +12,7 @@ const ReviewStars = ({ meal }) => {
   useEffect(() => {
     async function getStars(mealId) {
       const res = await axios.get(
-        `http://localhost:3000/api/meals/${mealId}/reviews`
+        `http://localhost:5000/api/meals/${mealId}/reviews`
       );
       const reviews = res.data;
 

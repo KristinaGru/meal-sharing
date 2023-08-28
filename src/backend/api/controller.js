@@ -154,9 +154,9 @@ const getMealByQuery = async (req, res) => {
 
       function filterByAvailability(builder) {
         if (queries['availableReservations'] === 'true') {
-          builder
-            .having('available_reservations', '>', 0)
-            .orHavingNull('available_reservations');
+          builder.havingRaw(
+            '(meal.max_reservations - COALESCE(SUM(reservation.number_of_guests), 0)) > 0'
+          );
         }
       }
 
