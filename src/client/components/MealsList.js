@@ -18,7 +18,7 @@ const MealsList = () => {
   ) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/meals?title=${title}&sortKey=${sortKey}&sortDir=${sortDir}&maxPrice=${maxPrice}&minPrice=${minPrice}&availableReservations=${availableReservations}&dateAfter=${dateAfter}&dateBefore=${dateBefore}`
+        `api/meals?title=${title}&sortKey=${sortKey}&sortDir=${sortDir}&maxPrice=${maxPrice}&minPrice=${minPrice}&availableReservations=${availableReservations}&dateAfter=${dateAfter}&dateBefore=${dateBefore}`
       );
       setMeals(res.data);
     } catch (e) {

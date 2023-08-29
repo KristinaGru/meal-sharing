@@ -12,7 +12,7 @@ function App() {
   const [meals, setMeals] = useState([]);
   useEffect(() => {
     const getMeals = async () => {
-      const meals = await axios.get('http://localhost:5000/api/meals');
+      const meals = await axios.get('api/meals');
       setMeals(meals.data);
     };
     getMeals().catch(console.error);

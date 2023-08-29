@@ -7,9 +7,7 @@ const ReservationForm = ({ id }) => {
   const [availableReservations, setAvailableReservations] = useState(0);
 
   const getAvailableReservations = async () => {
-    const res = await axios.get(
-      'http://localhost:5000/api/meals?availableReservations=true'
-    );
+    const res = await axios.get('api/meals?availableReservations=true');
     const meals = res.data;
     const meal = meals.find((meal) => meal.id === +id);
     meal
@@ -39,7 +37,7 @@ const ReservationForm = ({ id }) => {
     e.preventDefault();
     try {
       setAvailableReservations(availableReservations - data.number_of_guests);
-      axios.post('http://localhost:5000/api/reservations', data);
+      axios.post('api/reservations', data);
       alert('successful reservation');
     } catch (e) {
       alert(e.message);

@@ -11,9 +11,7 @@ const ReviewStars = ({ meal }) => {
 
   useEffect(() => {
     async function getStars(mealId) {
-      const res = await axios.get(
-        `http://localhost:5000/api/meals/${mealId}/reviews`
-      );
+      const res = await axios.get(`api/meals/${mealId}/reviews`);
       const reviews = res.data;
 
       if (reviews.length > 0) {

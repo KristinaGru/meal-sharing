@@ -20,7 +20,7 @@ const AddReview = ({ id }) => {
     e.preventDefault();
     if (data.stars) {
       try {
-        axios.post('http://localhost:5000/api/reviews', data);
+        axios.post('api/reviews', data);
         alert('review sent');
         setEditing(false);
       } catch (e) {

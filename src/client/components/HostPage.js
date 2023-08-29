@@ -31,7 +31,7 @@ const HostPage = () => {
   const submit = (e) => {
     e.preventDefault();
     try {
-      axios.post('http://localhost:5000/api/meals', data);
+      axios.post('api/meals', data);
       alert('meal added');
     } catch (e) {
       alert(e.message);

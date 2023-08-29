@@ -7,9 +7,7 @@ const Reviews = ({ id }) => {
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
     const getReviews = async () => {
-      const reviews = await axios.get(
-        `http://localhost:5000/api/meals/${id}/reviews`
-      );
+      const reviews = await axios.get(`api/meals/${id}/reviews`);
       setReviews(reviews.data);
     };
     getReviews().catch(console.error);
