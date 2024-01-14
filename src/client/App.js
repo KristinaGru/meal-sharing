@@ -1,22 +1,37 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import TestComponent from './components/TestComponent/TestComponent';
-import MealsList from './components/TestComponent/MealsList';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import MealsList from './components/MealsList';
+import Header from './components/Header';
+import { useState, useEffect } from 'react';
+import MealPage from './components/MealPage';
+import MainPage from './components/MainPage';
+import axios from 'axios';
+import HostPage from './components/HostPage';
 
 function App() {
+  const [meals, setMeals] = useState([]);
+  useEffect(() => {
+    const getMeals = async () => {
+      const meals = await axios.get('api/meals');
+      setMeals(meals.data);
+    };
+    getMeals().catch(console.error);
+  }, []);
+
   return (
     <Router>
+      <Header />
+      <Route exact path="/">
+        <MainPage meals={meals.slice(0, 5)} />
+      </Route>
       <Route exact path="/meals">
         <MealsList />
       </Route>
-      <Route exact path="/">
-        <p>test</p>
+      <Route exact path="/meals/:id">
+        <MealPage meals={meals} />
       </Route>
-      <Route exact path="/lol">
-        <p>lol</p>
-      </Route>
-      <Route exact path="/test-component">
-        <TestComponent></TestComponent>
+      <Route exact path="/host">
+        <HostPage />
       </Route>
     </Router>
   );
